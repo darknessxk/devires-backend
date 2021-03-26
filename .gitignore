@@ -8,3 +8,5 @@ docs/
 keys/
 coverage/
 *.log
+.env
+.test.env
