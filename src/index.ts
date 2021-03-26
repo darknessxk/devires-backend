@@ -4,9 +4,6 @@ import routes from './routes';
 import path from 'path';
 import bodyParser from 'body-parser';
 
-/**
- * Application entrypoint
- */
 const main = async () => {
     const app = express();
     const { PORT } = process.env;
