@@ -21,7 +21,8 @@
         "keys:generate": "./scripts/rsa-gen.sh",
         "prettify": "prettier --config .prettierrc.json --write src/**/*.ts",
         "coverage": "jest --coverage",
-        "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+        "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+        "password:hash": "ts-node ./scripts/hashPassword.ts"
     },
     "husky": {
         "hooks": {
