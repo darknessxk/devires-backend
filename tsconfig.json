@@ -10,12 +10,19 @@
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"],
   "typedocOptions": {
-    "entryPoints": ["src/index.ts", "src/routes/index.ts", "src/types/index.ts"],
+    "entryPoints": [
+      "src/database/getConnection.ts",
+      "src/database/models/index.ts",
+      "src/routes/api/login/index.ts",
+      "src/routes/api/user/index.ts",
+      "src/routes/api/index.ts",
+      "src/utils/index.ts",
+      "src/types/index.ts"
+    ],
+    "openapi-doc": {
+      "hoistDescription": true,
+      "yaml2Html": false
+    },
     "out": "docs"
-  },
-  "references": [
-    {"path": "../jest-transform"},
-    {"path": "../jest-types"},
-    {"path": "../test-utils"}
-  ]
+  }
 }
