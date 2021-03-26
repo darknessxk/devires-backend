@@ -17,7 +17,7 @@
         "build:ts": "tsc",
         "prestart": "yarn build",
         "start": "node .",
-        "doc": "typedoc --name \"Devires Backend\"",
+        "doc": "typedoc --exclude \"**/*+(jest|index|.spec|.test|.e2e).ts\" --name \"Devires Backend\"",
         "keys:generate": "./scripts/rsa-gen.sh",
         "prettify": "prettier --config .prettierrc.json --write src/**/*.ts",
         "coverage": "jest --coverage",
@@ -61,6 +61,7 @@
         "jest": "^26.6.3",
         "prettier": "^2.2.1",
         "pretty-quick": "^3.1.0",
-        "ts-jest": "^26.5.4"
+        "ts-jest": "^26.5.4",
+        "typedoc-plugin-openapi-doc": "^0.3.1"
     }
 }
