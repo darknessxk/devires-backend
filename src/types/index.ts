@@ -1,1 +1,3 @@
-export * from "./User.ts"
+export * from "./User"
+export * from "./Type"
+
