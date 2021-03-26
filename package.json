@@ -22,7 +22,8 @@
         "prettify": "prettier --config .prettierrc.json --write src/**/*.ts",
         "coverage": "jest --coverage",
         "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-        "password:hash": "ts-node ./scripts/hashPassword.ts"
+        "password:hash": "ts-node ./scripts/hashPassword.ts",
+        "database:new-user": "ts-node ./scripts/addUser.ts"
     },
     "husky": {
         "hooks": {
