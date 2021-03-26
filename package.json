@@ -10,6 +10,7 @@
     "dev": "nodemon",
     "test": "jest",
     "lint:fix": "eslint --ext .ts src/ --fix",
+    "prebuild": "yarn",
     "build": "npm-run-all lint:fix test build:*",
     "build:ts": "",
     "prestart": "yarn build",
@@ -32,8 +33,10 @@
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
     "eslint": "^7.22.0",
-    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
     "jest": "^26.6.3"
   }
 }
