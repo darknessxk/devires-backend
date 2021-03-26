@@ -6,3 +6,4 @@ ormconfig.json
 docs/
 .idea
 keys/
+coverage/
