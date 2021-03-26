@@ -14,7 +14,7 @@
     "build:ts": "",
     "prestart": "yarn build",
     "start": "node .",
-    "doc": "typedoc --out ./docs"
+    "doc": "typedoc"
   },
   "dependencies": {
     "cross-env": "^7.0.3",
