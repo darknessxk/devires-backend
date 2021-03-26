@@ -4,5 +4,10 @@
    "port": 3306,
    "username": "test",
    "password": "test",
-   "database": "test"
+   "database": "test",
+   "entities": ["src/database/models/*.js"],
+   "migrations": ["src/database/migration/*.js"],
+   "cli": {
+      "migrationsDir": "src/database/migration"
+   }
 }
