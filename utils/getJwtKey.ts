@@ -2,7 +2,7 @@ import fs from 'fs';
 
 type JwtKeys = 'PBK' | 'PVK';
 
-export const getJwtKey = async (type: JwtKeys): Promise<Buffer> => {
+export const getJwtKey = (type: JwtKeys): Buffer => {
     const KEY = process.env[`JWT_${type}`];
 
     if (KEY) {
