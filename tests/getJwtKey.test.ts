@@ -5,7 +5,10 @@ test('getJwtKey without env variable JWT_PBK', () => {
 });
 
 test('getJwtKey with env variable JWT_PBK', () => {
-    expect(() => getJwtKey('PBK')).toBeDefined();
+    expect(() => {
+        process.env.JWT_PBK = '../keys/jwt.pbk';
+        getJwtKey('PBK');
+    }).not.toThrow();
 });
 
 test('getJwtKey without env variable JWT_PVK', () => {
@@ -13,5 +16,8 @@ test('getJwtKey without env variable JWT_PVK', () => {
 });
 
 test('getJwtKey with env variable JWT_PVK', () => {
-    expect(() => getJwtKey('PVK')).toBeDefined();
+    expect(() => {
+        process.env.JWT_PVK = '../keys/jwt.pvk';
+        getJwtKey('PVK');
+    }).not.toThrow();
 });

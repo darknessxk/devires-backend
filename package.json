@@ -18,7 +18,8 @@
         "start": "node .",
         "doc": "typedoc --name \"Devires Backend\"",
         "keys:generate": "./scripts/rsa-gen.sh",
-        "prettify": "prettier --config .prettierrc.json --write src/**/*.ts"
+        "prettify": "prettier --config .prettierrc.json --write src/**/*.ts",
+        "code-coverage": "jest --coverage"
     },
     "husky": {
         "hooks": {
