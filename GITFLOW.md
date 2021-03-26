@@ -28,7 +28,6 @@ We will be following this Git Flow pattern with strict rules for future commits
 
 ### Pull Requesting
 
-* Every request **MUST** update the changelog file properly
 * Every request **MUST** have unit tests for every change that can be properly tested
 * Every request **MUST** be reviewed by a third-party
 
