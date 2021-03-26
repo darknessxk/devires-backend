@@ -9,6 +9,7 @@
     "scripts": {
         "dev": "nodemon",
         "test": "jest",
+        "test:watch": "jest --watch",
         "lint:fix": "eslint --ext .ts src/ --fix",
         "prebuild": "yarn",
         "postbuild": "yarn doc",
@@ -19,7 +20,7 @@
         "doc": "typedoc --name \"Devires Backend\"",
         "keys:generate": "./scripts/rsa-gen.sh",
         "prettify": "prettier --config .prettierrc.json --write src/**/*.ts",
-        "code-coverage": "jest --coverage"
+        "coverage": "jest --coverage"
     },
     "husky": {
         "hooks": {
@@ -28,9 +29,10 @@
     },
     "dependencies": {
         "cross-env": "^7.0.3",
+        "dotenv": "^8.2.0",
         "express": "^4.17.1",
-        "jose": "^3.11.1",
         "mysql": "^2.18.1",
+        "node-jsonwebtoken": "^0.0.1",
         "npm-run-all": "^4.1.5",
         "reflect-metadata": "^0.1.13",
         "ts-node": "^9.1.1",
@@ -44,6 +46,7 @@
         "@tsconfig/recommended": "^1.0.1",
         "@types/express": "^4.17.11",
         "@types/jest": "^26.0.22",
+        "@types/jsonwebtoken": "^8.5.1",
         "@types/node": "^14.14.36",
         "@typescript-eslint/eslint-plugin": "^4.19.0",
         "@typescript-eslint/parser": "^4.19.0",
