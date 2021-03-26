@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table, TableIndex, TableColumn } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableIndex } from 'typeorm';
 
 export class addTypeTable1616788233592 implements MigrationInterface {
     tableName: string = 'type';
