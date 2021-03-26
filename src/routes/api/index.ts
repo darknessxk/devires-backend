@@ -1,10 +1,10 @@
+import * as UserApi from './user';
+import * as LoginApi from './login';
 import { Router } from 'express';
-import login from './login';
-import user from './user';
 
 const router = Router();
 
-router.use('/user', user);
-router.use('/login', login);
+router.use('/login', LoginApi.Router);
+router.use('/user', UserApi.Router);
 
-export default router;
+export const ApiRoute = router;
