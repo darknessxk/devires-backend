@@ -4,3 +4,4 @@ yarn.lock
 certs/
 ormconfig.json
 docs/
+.idea
