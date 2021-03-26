@@ -21,7 +21,7 @@
     * Description (String)
 
 ### Bussiness
-* User can only have one Type
+* User can only have one Type ✅
 * Only Root or Admin user can modify any User field even Status field
 * Only Root or Admin user can create new Users
 * Only Root or Admin user can delete Users

@@ -5,4 +5,4 @@ export type User = {
     email: string;
     type: Type;
     status: boolean;
-}
+};
