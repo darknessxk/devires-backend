@@ -1,4 +1,4 @@
-import getConnection from '../src/database/getConnection';
+import getConnection from '../src/database/connectionHandler';
 import { User } from '../src/database/models/User';
 import { Type } from '../src/database/models/Type';
 

@@ -1,11 +1,11 @@
 import { User as DatabaseUser } from '../../../database/models/User';
 import { User } from '../../../types';
-import getConnection from '../../../database/getConnection';
+ import connection from '../../../database/connectionHandler';
 import { passwordHash } from '../../../utils';
 
 export const login = async (email: string, password: string): Promise<User | false> => {
-    const connection = await getConnection();
-    const userRepository = connection.getRepository(DatabaseUser);
+    const conn = await connection.get();
+    const userRepository = conn.getRepository(DatabaseUser);
     const hashed = passwordHash(password);
 
     const user = await userRepository.findOne({
