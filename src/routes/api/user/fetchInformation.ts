@@ -1,6 +1,8 @@
-import { User as DatabaseUser } from '../../../database/models/User';
 import { User } from '../../../types';
+import getConnection from '../../../database/getConnection';
 
-export const fetchInformation = (token: string, id?: string): User | false => {
+export const fetchInformation = async (token: string, id?: string): Promise<User | false> => {
+    const connection = await getConnection();
+
     return false;
 };

@@ -1,9 +1,9 @@
 import { createHash } from 'crypto';
 
-export const passwordHash = (pwd: string) => {
+export const passwordHash = (password: string): string => {
     const hash = createHash('sha256');
     return hash
-        .update(pwd)
+        .update(password)
         .digest()
         .toString('hex');
 };
