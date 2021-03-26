@@ -3,4 +3,4 @@ build/
 yarn.lock
 certs/
 ormconfig.json
-
+docs/
