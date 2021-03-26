@@ -4,6 +4,7 @@
     "target": "ESNext",
     "preserveConstEnums": true,
     "lib": [ "esnext" ],
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
   "include": ["src/**/*"],
