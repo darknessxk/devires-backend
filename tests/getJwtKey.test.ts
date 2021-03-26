@@ -1,5 +1,5 @@
-import test from 'jest';
+import { getJwtKey } from '../utils';
 
-test('', () => {
-    return true;
+test('getJwtKey without env variable', () => {
+    expect(() => getJwtKey('PBK')).toThrow('JWT_PBK environment is missing');
 });

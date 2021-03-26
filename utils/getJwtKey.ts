@@ -1,14 +1,14 @@
 import { JWK, fromKeyLike } from 'jose/jwk/from_key_like';
 import fs from 'fs';
 
-export const getPrivateJwtKey = async (): Promise<JWK> => {
-    const { JWT_PVK } = process.env;
+export const getJwtKey = async (type: 'PBK' | 'PVK'): Promise<JWK> => {
+    const KEY = process.env[`JWT_${type}`];
 
-    if (JWT_PVK) {
-        const fileBuffer = fs.readFileSync(JWT_PVK);
+    if (KEY) {
+        const fileBuffer = fs.readFileSync(KEY);
 
         return fromKeyLike(fileBuffer);
     } else {
-        throw new Error('JWT_PVK environment is missing');
+        throw new Error(`JWT_${type} environment is missing`);
     }
 };
