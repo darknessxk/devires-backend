@@ -13,10 +13,10 @@
     "prebuild": "yarn",
     "postbuild": "yarn doc",
     "build": "npm-run-all lint:fix test build:*",
-    "build:ts": "",
+    "build:ts": "tsc",
     "prestart": "yarn build",
     "start": "node .",
-    "doc": "typedoc"
+    "doc": "typedoc --name \"Devires Backend\""
   },
   "dependencies": {
     "cross-env": "^7.0.3",
