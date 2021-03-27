@@ -23,9 +23,7 @@
         "coverage": "jest --coverage",
         "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
         "password:hash": "ts-node ./scripts/hashPassword.ts",
-        "database:new-user": "ts-node ./scripts/addUser.ts",
-        "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
-        "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
+        "database:new-user": "ts-node ./scripts/addUser.ts"
     },
     "husky": {
         "hooks": {
@@ -44,7 +42,6 @@
         "ts-node": "^9.1.1",
         "typedoc": "^0.20.34",
         "typeorm": "^0.2.31",
-        "typeorm-seeding": "^1.6.1",
         "typescript": "^4.2.3"
     },
     "devDependencies": {
