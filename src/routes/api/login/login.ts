@@ -1,6 +1,6 @@
 import { User as DatabaseUser } from '../../../database/models/User';
 import { User } from '../../../types';
- import connection from '../../../database/connectionHandler';
+import connection from '../../../database/connectionHandler';
 import { passwordHash } from '../../../utils';
 
 export const login = async (email: string, password: string): Promise<User | false> => {

@@ -2,8 +2,6 @@ import { createConnection, Connection } from 'typeorm';
 
 let connectionCache: Connection;
 
-
-
 export default {
     get: async () => {
         if (connectionCache) return connectionCache;
