@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Type } from './Type';
 
 @Entity()
@@ -6,13 +6,13 @@ export class User {
     @PrimaryGeneratedColumn('uuid')
     id!: string;
 
-    @Column()
+    @Column({ type: 'varchar', length: 128, unique: true, nullable: false })
     email!: string;
 
-    @Column()
+    @Column({ type: 'varchar', length: 128, nullable: false, unique: false })
     password!: string;
 
-    @OneToOne(() => Type)
+    @ManyToOne(() => Type, { nullable: false })
     @JoinColumn()
     type!: Type;
 
