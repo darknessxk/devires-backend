@@ -11,7 +11,9 @@ export class addTypeTable1616788233592 implements MigrationInterface {
                     name: 'id',
                     type: 'varchar',
                     isPrimary: true,
-                    default: 'UUID()'
+                    default: 'UUID()',
+                    isGenerated: true,
+                    generationStrategy: 'uuid'
                 },
                 {
                     name: 'description',

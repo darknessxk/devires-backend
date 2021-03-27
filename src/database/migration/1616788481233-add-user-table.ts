@@ -11,7 +11,9 @@ export class addUserTable1616788481233 implements MigrationInterface {
                     name: 'id',
                     type: 'varchar',
                     isPrimary: true,
-                    default: 'UUID()'
+                    default: 'UUID()',
+                    isGenerated: true,
+                    generationStrategy: 'uuid'
                 },
                 {
                     name: 'email',
@@ -33,7 +35,10 @@ export class addUserTable1616788481233 implements MigrationInterface {
                 {
                     name: 'typeId',
                     type: 'varchar',
-                    isNullable: false
+                    isNullable: false,
+                    isUnique: false,
+                    isGenerated: true,
+                    generationStrategy: 'uuid'
                 }
             ]
         }));
