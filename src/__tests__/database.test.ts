@@ -1,62 +1,111 @@
-import { createConnection, getConnection, Entity, getRepository } from 'typeorm';
 import { User } from '../database/models/User';
 import { Type } from '../database/models/Type';
-import { passwordHash } from '../utils';
+import connectionHandler from '../database/connectionHandler';
+import { getRepository } from 'typeorm';
+import {generateUser} from "../utils/test/generateUser";
 
-beforeEach(async () => {
-    return createConnection({
-        type: 'sqlite',
-        database: ':memory:',
-        dropSchema: true,
-        entities: [User, Type],
-        synchronize: true,
-        logging: false
+describe('database', () => {
+    beforeAll(async (done) => connectionHandler.get(true));
+
+    afterAll(async (done) => {
+        await connectionHandler.close();
+        done();
     });
-});
 
-afterEach(async () => {
-    return getConnection().close();
-});
+    test('find admin user', (done) => {
+        (async () => {
+            const userRepo = await getRepository(User);
+            const typeRepo = await getRepository(Type);
 
-test('check if is able to fetch user repo', async () => {
-    try {
-        const repo = await getRepository(User);
-        expect(repo).toBeDefined();
-    } catch (e) {
-        expect(e).not.toBeDefined();
-    }
-});
+            const type = await typeRepo.findOne({
+                where: {
+                    description: 'Admin'
+                }
+            });
 
-test('check if is able to fetch type repo', async () => {
-    try {
-        const repo = await getRepository(Type);
-        expect(repo).toBeDefined();
-    } catch (e) {
-        expect(e).not.toBeDefined();
-    }
-});
+            const user = await userRepo.findOne({
+                where: { type }
+            });
 
-test('check if is able to create user', async () => {
-    try {
-        const repo = await getRepository(User);
-        expect(repo).toBeDefined();
+            expect(user).toBeDefined();
+            done();
+        })();
+    });
 
-        const typeRepo = await getRepository(Type);
-        expect(repo).toBeDefined();
+    test('find root user', (done) => {
+        (async () => {
+            const userRepo = await getRepository(User);
+            const typeRepo = await getRepository(Type);
 
-        const type = await typeRepo.findOneOrFail({
-            where: {
-                description: 'Admin'
+            const type = await typeRepo.findOne({
+                where: {
+                    description: 'Root'
+                }
+            });
+
+            const user = await userRepo.findOne({
+                where: { type }
+            });
+
+            expect(user).not.toBeUndefined();
+            done();
+        })();
+    });
+
+    test('find default user', (done) => {
+        (async () => {
+            const userRepo = await getRepository(User);
+            const typeRepo = await getRepository(Type);
+
+            const type = await typeRepo.findOne({
+                where: {
+                    description: 'Default'
+                }
+            });
+
+            const user = await userRepo.findOne({
+                where: { type }
+            });
+
+            expect(user).toBeDefined();
+            done();
+        })();
+    });
+
+    test('find invalid type', (done) => {
+        (async () => {
+            const typeRepo = await getRepository(Type);
+
+            const type = await typeRepo.findOne({
+                where: {
+                    description: `${Date.now()}AwkwardRandomNameBasedOnTime?${Date.now()}`
+                }
+            });
+
+            expect(type).not.toBeDefined();
+            done();
+        })();
+    });
+
+    test('check if is able to create user', (done) => {
+        (async () => {
+            const userRepo = await getRepository(User);
+            const typeRepo = await getRepository(Type);
+
+            try {
+                const type = await typeRepo.findOneOrFail({
+                    where: {
+                        description: 'Admin'
+                    }
+                });
+
+                const result = await userRepo.insert({ ...generateUser(), type });
+
+                expect(result.identifiers.length > 0).toBeTruthy();
+            } catch (e) {
+                expect(e).not.toBeDefined();
             }
-        });
-
-        repo.insert({
-            status: true,
-            email: 'jest@jest.com',
-            password: passwordHash('one-cat'),
-            type
-        });
-    } catch (e) {
-        expect(e).not.toBeDefined();
-    }
+            done();
+        })();
+    });
 });
