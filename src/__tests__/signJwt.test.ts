@@ -3,9 +3,9 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: '.test.env' });
 
-test('signature', async () => {
+test('signature', () => {
     try {
-        const response = await signJwt({ test: '1234' });
+        const response = signJwt({ test: '1234' });
         expect(response).toBeDefined();
     } catch (e) {
         expect(e).not.toBeDefined();
