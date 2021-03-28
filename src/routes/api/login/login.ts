@@ -9,7 +9,9 @@ export const login = async (email: string, pass: string): Promise<User | false> 
     const password = passwordHash(pass);
 
     const user = await userRepository.findOne({
-        where: { email, password }
+        where: { email, password },
+        relations: ['type'],
+        select: ['id', 'status', 'email', 'type']
     });
 
     return user as User || false;
