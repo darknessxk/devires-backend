@@ -2,7 +2,7 @@ import { User } from '../database/models/User';
 import { Type } from '../database/models/Type';
 import connectionHandler from '../database/connectionHandler';
 import { getRepository } from 'typeorm';
-import {generateUser} from "../utils/test/generateUser";
+import { generateUser } from '../utils/test/generateUser';
 
 describe('database', () => {
     beforeAll(async (done) => connectionHandler.get(true));

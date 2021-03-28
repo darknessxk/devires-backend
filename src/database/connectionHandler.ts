@@ -1,14 +1,14 @@
-import {createConnection, Connection, getRepository} from 'typeorm';
-import {User} from "./models/User";
-import {Type} from "./models/Type";
-import {QueryDeepPartialEntity} from "typeorm/query-builder/QueryPartialEntity";
-import {randomNumber} from "../utils/randomNumber";
+import { createConnection, Connection, getRepository } from 'typeorm';
+import { User } from './models/User';
+import { Type } from './models/Type';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import { randomNumber } from '../utils/randomNumber';
 import { generateUser } from '../utils/test/generateUser';
 
 let connectionCache: Connection;
 
 export default {
-    get: async (testMode: boolean) => {
+    get: async (testMode: boolean = false) => {
         if (connectionCache) return connectionCache;
 
         if (testMode) {
