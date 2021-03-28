@@ -8,8 +8,9 @@ import { generateUser } from '../utils/test/generateUser';
 let connectionCache: Connection;
 
 export default {
-    get: async (testMode: boolean = false) => {
+    get: async (): Promise<Connection> => {
         if (connectionCache) return connectionCache;
+        const testMode = process.env.NODE_ENV === 'test';
 
         if (testMode) {
             connectionCache = await createConnection({
@@ -39,7 +40,12 @@ export default {
             const types = await typeRepo.find();
 
             const users: QueryDeepPartialEntity<User>[] = [];
-            for (let u = 0; u < 10; u++) {
+
+            users.push({ ...generateUser(), id: 'c6fb7cd5-a111-4fb2-bf96-65869c1932c7', email: 'testing@jest.ts', type: types[0] });
+            users.push({ ...generateUser(), type: types[1] });
+            users.push({ ...generateUser(), type: types[2] });
+
+            for (let u = 0; u < 7; u++) {
                 const type = types[randomNumber(types.length - 1)];
                 users.push({ ...generateUser(), type });
             }
@@ -51,7 +57,7 @@ export default {
 
         return connectionCache;
     },
-    close: async () => {
-        if (connectionCache) connectionCache.close();
+    close: async (): Promise<void> => {
+        if (connectionCache) await connectionCache.close();
     }
 };
