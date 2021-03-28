@@ -8,7 +8,7 @@ export const access = (req: Request, res: Response, next: NextFunction): void =>
         if (checkAccess(user.type.description)) {
             next();
         } else {
-            res.status(402).send({ msg: 'Access denied' });
+            res.status(401).send({ msg: 'Access denied' });
         }
     } else {
         res.status(400).send({ msg: 'Invalid token' });
