@@ -1,12 +1,17 @@
 import { User as DbUser } from '../../../database/models/User';
-import { User } from '../../../types';
 import connection from '../../../database/connectionHandler';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import { User } from '../../../types';
 
-export const updateUser = async (id: string): Promise<User[]> => {
+export const updateUser = async (id: string, data: QueryDeepPartialEntity<DbUser>): Promise<User | false> => {
     const conn = await connection.get();
     const repo = conn.getRepository(DbUser);
 
-    const users = await repo.find({ id });
+    let user = await repo.findOne(id);
 
-    return users && users.map(({ type, status, email, id }) => ({ id, status, email, type }));
+    if (!user) return false;
+
+    user = { ...user, ...data as DbUser };
+
+    return await repo.save(user);
 };

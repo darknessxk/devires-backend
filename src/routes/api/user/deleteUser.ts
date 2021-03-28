@@ -4,8 +4,11 @@ import connection from '../../../database/connectionHandler';
 export const deleteUser = async (id: string): Promise<boolean> => {
     const conn = await connection.get();
     const repo = conn.getRepository(DbUser);
+    const user = await repo.findOne(id);
 
-    const result = await repo.delete({ id });
+    if (!user) return false;
 
-    return (result.affected || 0) > 0;
+    const result = await repo.remove([user]);
+
+    return (result.length || 0) > 0;
 };

@@ -6,7 +6,7 @@ export const getUserById = async (userId: string): Promise<User | false> => {
     const conn = await connection.get();
     const repo = conn.getRepository(DbUser);
 
-    const user = await repo.findOne({ id: userId });
+    const user = await repo.findOne({ id: userId }, { relations: ['type'] });
 
     if (!user) return false;
 
