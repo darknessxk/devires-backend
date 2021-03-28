@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 describe('Api /login Route', () => {
     const app = Server();
     const loginInfo = {
-        email: 'testing@jest.ts',
+        email: 'root@jest.ts',
         password: '1234'
     };
 
