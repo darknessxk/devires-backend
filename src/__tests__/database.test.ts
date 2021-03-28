@@ -5,12 +5,9 @@ import { getRepository } from 'typeorm';
 import { generateUser } from '../utils/test/generateUser';
 
 describe('database', () => {
-    beforeAll(async (done) => connectionHandler.get(true));
+    beforeAll(async () => connectionHandler.get());
 
-    afterAll(async (done) => {
-        await connectionHandler.close();
-        done();
-    });
+    afterAll(async () => connectionHandler.close());
 
     test('find admin user', (done) => {
         (async () => {
@@ -63,11 +60,11 @@ describe('database', () => {
                 }
             });
 
-            const user = await userRepo.findOne({
-                where: { type }
-            });
+            if (type) {
+                const user = await userRepo.findOne({ loadRelationIds: true, where: { type: type.id } });
+                expect(user).toBeDefined();
+            }
 
-            expect(user).toBeDefined();
             done();
         })();
     });
