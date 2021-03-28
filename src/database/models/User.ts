@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { IsEmail } from 'class-validator';
 import { Type } from './Type';
 
 @Entity()
@@ -7,6 +8,7 @@ export class User {
     id!: string;
 
     @Column({ type: 'varchar', length: 128, unique: true, nullable: false })
+    @IsEmail()
     email!: string;
 
     @Column({ type: 'varchar', length: 128, nullable: false, unique: false })
