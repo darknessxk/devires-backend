@@ -1,8 +1,10 @@
 import { passwordHash } from '../passwordHash';
 import faker from 'faker';
 import { randomNumber } from '../randomNumber';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import { User } from '../../database/models/User';
 
-export const generateUser = () => {
+export const generateUser = (): QueryDeepPartialEntity<User> => {
     const password = passwordHash('1234');
     const gender = randomNumber(1);
 

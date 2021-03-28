@@ -15,5 +15,12 @@ export class addUserTypes1616798826515 implements MigrationInterface {
     }
 
     public async down (queryRunner: QueryRunner): Promise<void> {
+        const types = await queryRunner.manager.find(Type, {
+            where: {
+                description: ['Root', 'Admin', 'Default']
+            }
+        });
+
+        await queryRunner.manager.remove(types);
     }
 }
