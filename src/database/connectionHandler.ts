@@ -41,9 +41,9 @@ export default {
 
             const users: QueryDeepPartialEntity<User>[] = [];
 
-            users.push({ ...generateUser(), id: 'c6fb7cd5-a111-4fb2-bf96-65869c1932c7', email: 'testing@jest.ts', type: types[0] });
+            users.push({ ...generateUser(), id: 'c6fb7cd5-a111-4fb2-bf96-65869c1932c7', email: 'root@jest.ts', type: types[0] });
             users.push({ ...generateUser(), type: types[1] });
-            users.push({ ...generateUser(), type: types[2] });
+            users.push({ ...generateUser(), id: '2e540e08-a293-491a-8b8d-a18a15512184', email: 'default@jest.ts', type: types[2] });
 
             for (let u = 0; u < 7; u++) {
                 const type = types[randomNumber(types.length - 1)];
