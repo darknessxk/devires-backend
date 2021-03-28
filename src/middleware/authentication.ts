@@ -15,10 +15,12 @@ export const authentication = (req: Request, res: Response, next: NextFunction):
 
         const token = checkJwt(authorization);
 
-        if (!token) res.status(400).send({ msg: 'Invalid token' });
-
-        req.user = token as User;
-        next();
+        if (!token) {
+            res.status(400).send({ msg: 'Invalid token' });
+        } else {
+            req.user = token as User;
+            next();
+        }
     } else {
         res.status(400).send({ msg: 'Missing token' });
     }
