@@ -3,6 +3,10 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: '.test.env' });
 
+type ITestJsonData =  {
+    stringValue: string;
+}
+
 test('fail to parse invalid value', () => {
     try {
         checkJwt('invalid stuff');
@@ -12,9 +16,12 @@ test('fail to parse invalid value', () => {
 });
 
 test('parse valid jwt token', () => {
-    const testKey = `TEST-${Math.random() * 1024 * Date.now()}`;
+    const stringValue = `TEST-${Math.random() * 1024 * Date.now()}`;
+    const data: ITestJsonData = {
+        stringValue
+    };
 
-    const token = signJwt({ [testKey]: true });
-    const parsedValue = checkJwt(token);
-    expect(Object.keys(parsedValue).includes(testKey)).toBeTruthy();
+    const token = signJwt(data);
+    const parsedValue = checkJwt(token) as ITestJsonData;
+    expect(parsedValue.stringValue === stringValue).toBeTruthy();
 });
