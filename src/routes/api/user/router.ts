@@ -3,8 +3,7 @@ import * as UserApi from './';
 import { authentication } from '../../../middleware/authentication';
 import { access } from '../../../middleware/access';
 import { checkAccess } from '../../../utils';
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { User as DbUser } from '../../../database/models/User';
+import { User } from '../../../types';
 
 const router = ERouter();
 
@@ -18,12 +17,17 @@ router.get('/', async (req, res) => {
         return;
     }
 
-    const payload: QueryDeepPartialEntity<DbUser> =
+    const payload: User | User[] | false =
          checkAccess(user.type.description)
-             ? (body || {})
-             : { id: user.id };
+             ? await UserApi.listUsers(body || {})
+             : await UserApi.getUserById(user.id);
 
-    res.send(await UserApi.listUsers(payload));
+    if (!payload) {
+        res.sendStatus(500).end();
+        return;
+    }
+
+    res.send(payload);
 });
 
 router.get('/:id', access, async (req, res) => {
@@ -65,8 +69,6 @@ router.patch('/', access, async (req, res) => {
     }
 
     const result = await UserApi.updateUser(id, { email, status, password, type });
-
-    console.log({ result, id });
 
     res.status(result ? 202 : 409).send({ user: result || {} });
 });
