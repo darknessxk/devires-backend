@@ -17,26 +17,31 @@ describe('Api /user Route', () => {
     let jwtDefault = '';
 
     dotenv.config({ path: '.test.env' });
-    beforeAll(async () => {
-        {
-            const loginUser = await login('root@jest.ts', '1234');
+    beforeAll(async (done) => {
+        await dbInit();
+        await seedDatabase();
 
-            if (loginUser) {
-                jwtRoot = signJwt(loginUser);
+        {
+            const loginResult = await login('root@jest.ts', '1234');
+
+            if (loginResult) {
+                jwtRoot = signJwt(loginResult);
             }
         }
 
         {
-            const loginUser = await login('default@jest.ts', '1234');
+            const loginResult = await login('default@jest.ts', '1234');
 
-            if (loginUser) {
-                jwtDefault = signJwt(loginUser);
+            if (loginResult) {
+                targetId = loginResult.id;
+                jwtDefault = signJwt(loginResult);
             }
         }
 
-        return connectionHandler.get();
+        done();
     });
-    afterAll(async () => connectionHandler.close());
+
+    afterAll(async () => dbClose());
 
     test('access deny', () => {
         return request(app).get('/api/user').expect(400);
@@ -57,7 +62,7 @@ describe('Api /user Route', () => {
             .expect(401);
     });
 
-    test('test create user', async () => {
+    test('create user', async () => {
         const typeRepo = await getRepository(Type);
         const type = await typeRepo.findOneOrFail({ description: 'Default' });
 
@@ -68,18 +73,10 @@ describe('Api /user Route', () => {
                 ...generateUser(),
                 type
             })
-            .expect(200);
+            .expect(201);
     });
 
-    test('test delete user', () => {
-        return request(app)
-            .delete('/api/user')
-            .set('authorization', jwtRoot)
-            .send({ id: targetId })
-            .expect(200);
-    });
-
-    test('test update user', () => {
+    test('update user', () => {
         return request(app)
             .patch('/api/user')
             .set('authorization', jwtRoot)
@@ -87,20 +84,28 @@ describe('Api /user Route', () => {
                 id: targetId,
                 email: targetEmail
             })
-            .expect(200);
+            .expect(202);
     });
 
-    test('test user list', () => {
+    test('user list', () => {
         return request(app)
             .get('/api/user')
             .set('authorization', jwtRoot)
             .expect(200);
     });
 
-    test('test get self', () => {
+    test('get self', () => {
         return request(app)
             .get('/api/user')
             .set('authorization', jwtDefault)
             .expect(200);
+    });
+
+    test('delete user', () => {
+        return request(app)
+            .delete('/api/user')
+            .set('authorization', jwtRoot)
+            .send({ id: targetId })
+            .expect(204);
     });
 });
