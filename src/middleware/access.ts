@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { checkAccess } from '../utils/checkAccess';
+import { checkAccess } from '../utils';
 
 export const access = (req: Request, res: Response, next: NextFunction): void => {
     const { user } = req;
