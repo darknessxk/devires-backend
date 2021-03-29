@@ -3,10 +3,10 @@ import request from 'supertest';
 import { close as dbClose, initialize as dbInit } from '../database/connectionHandler';
 import dotenv from 'dotenv';
 import { signJwt } from '../utils';
-import { login } from '../routes/api/login';
 import { getRepository } from 'typeorm';
-import { Type } from '../database/models';
+import { Type, User as DbUser } from '../database/models';
 import { generateUser, seedDatabase } from '../utils/test';
+import { User } from '../types';
 
 describe('Api /user Route', () => {
     let targetId: string;
@@ -20,23 +20,25 @@ describe('Api /user Route', () => {
     beforeAll(async (done) => {
         await dbInit();
         await seedDatabase();
+        const userRepo = getRepository(DbUser);
 
-        {
-            const loginResult = await login('root@jest.ts', '1234');
+        const defaultUser = await userRepo.findOneOrFail({
+            where: {
+                email: 'default@jest.ts'
+            },
+            relations: ['type']
+        }) as User;
 
-            if (loginResult) {
-                jwtRoot = signJwt(loginResult);
-            }
-        }
+        const rootUser = await userRepo.findOneOrFail({
+            where: {
+                email: 'root@jest.ts'
+            },
+            relations: ['type']
+        }) as User;
 
-        {
-            const loginResult = await login('default@jest.ts', '1234');
-
-            if (loginResult) {
-                targetId = loginResult.id;
-                jwtDefault = signJwt(loginResult);
-            }
-        }
+        jwtRoot = `Bearer ${signJwt(rootUser)}`;
+        targetId = defaultUser.id;
+        jwtDefault = `Bearer ${signJwt(defaultUser)}`;
 
         done();
     });
@@ -47,18 +49,41 @@ describe('Api /user Route', () => {
         return request(app).get('/api/user').expect(400);
     });
 
+    test('invalid header', () => {
+        return request(app)
+            .get('/api/user')
+            .set('authorization', 'No Bearer')
+            .expect(400);
+    });
+
     test('invalid token', () => {
         return request(app)
             .get('/api/user')
-            .set('authorization', 'invalid token')
+            .set('authorization', 'Bearer invalid token')
             .expect(/[iI]nvalid [tT]oken/)
             .expect(400);
+    });
+
+    test('user not found', () => {
+        return request(app)
+            .post('/api/user/invalidId')
+            .set('authorization', jwtRoot)
+            .expect(404);
     });
 
     test('invalid group', () => {
         return request(app)
             .post('/api/user')
             .set('authorization', jwtDefault)
+            .expect(/[Aa]ccess [Dd]enied/)
+            .expect(401);
+    });
+
+    test('invalid group', () => {
+        return request(app)
+            .post('/api/user')
+            .set('authorization', jwtDefault)
+            .expect(/[Aa]ccess [Dd]enied/)
             .expect(401);
     });
 
@@ -98,7 +123,38 @@ describe('Api /user Route', () => {
         return request(app)
             .get('/api/user')
             .set('authorization', jwtDefault)
+            .expect(/api@testing\.jest/)
             .expect(200);
+    });
+
+    test('deny delete without access', () => {
+        return request(app)
+            .delete('/api/user')
+            .send({ id: targetId })
+            .set('authorization', jwtDefault)
+            .expect(401);
+    });
+
+    test('deny create without access', () => {
+        return request(app)
+            .post('/api/user')
+            .set('authorization', jwtDefault)
+            .expect(401);
+    });
+
+    test('deny update without access', () => {
+        return request(app)
+            .patch('/api/user')
+            .set('authorization', jwtDefault)
+            .expect(401);
+    });
+
+    test('delete user without id', () => {
+        return request(app)
+            .delete('/api/user')
+            .set('authorization', jwtRoot)
+            .send({ id: undefined })
+            .expect(400);
     });
 
     test('delete user', () => {
