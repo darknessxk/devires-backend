@@ -9,11 +9,20 @@ export const authentication = (req: Request, res: Response, next: NextFunction):
     } = req;
 
     if (authorization) {
-        if (!isJWT(authorization)) {
+        const authSplit = 'Bearer';
+
+        if (!authorization.includes(authSplit)) {
+            res.sendStatus(400).end();
+            return;
+        }
+
+        const jwtToken = authorization.split(authSplit)[1].substring(1);
+
+        if (!isJWT(jwtToken)) {
             res.status(400).send({ msg: 'Invalid token' });
         }
 
-        const token = checkJwt(authorization);
+        const token = checkJwt(jwtToken);
 
         if (!token) {
             res.status(400).send({ msg: 'Invalid token' });
