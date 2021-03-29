@@ -7,13 +7,18 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "outDir": "build/",
-    "rootDir": "src/"
+    "rootDir": "src/",
+    "typeRoots": [
+      "./node_modules/@types",
+      "@types",
+      "./src/@types",
+      "src/@types"
+    ]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts", "**/*.test.ts"],
   "typedocOptions": {
     "entryPoints": [
-      "src/database/getConnection.ts",
       "src/database/models/index.ts",
       "src/routes/api/login/index.ts",
       "src/routes/api/user/index.ts",
@@ -26,5 +31,9 @@
       "yaml2Html": false
     },
     "out": "docs"
-  }
+  },
+  "ts-node": {
+    "files": true
+  },
+  "files": ["./src/@types/express/index.d.ts"]
 }

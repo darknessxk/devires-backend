@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
-import { User } from '../../database/models/User';
-import { Type } from '../../database/models/Type';
+import { User, Type } from '../../database/models';
+
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { generateUser } from './generateUser';
 import { randomNumber } from '../randomNumber';

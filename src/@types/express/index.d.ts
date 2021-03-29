@@ -2,7 +2,7 @@ import { User } from '../types';
 
 declare global {
     namespace Express {
-        interface Request {
+        export interface Request {
             user?: User;
         }
     }

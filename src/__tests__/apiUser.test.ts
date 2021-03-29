@@ -1,7 +1,7 @@
 import * as UserApi from '../routes/api/user';
 import { generateUser, seedDatabase } from '../utils/test';
 import { getRepository } from 'typeorm';
-import { Type } from '../database/models/Type';
+import { Type } from '../database/models';
 import { close as dbClose, initialize as dbInit } from '../database/connectionHandler';
 import { User as DbUser } from '../database/models/User';
 import { User } from '../types';

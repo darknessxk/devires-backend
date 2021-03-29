@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { Type } from '../models/Type';
+import { Type } from '../models';
 
 export class addUserTypes1616798826515 implements MigrationInterface {
     public async up (queryRunner: QueryRunner): Promise<void> {

@@ -1,5 +1,5 @@
-import { User } from '../database/models/User';
-import { Type } from '../database/models/Type';
+import { User, Type } from '../database/models';
+
 import { initialize as dbInit, close as dbClose } from '../database/connectionHandler';
 import { getRepository } from 'typeorm';
 import { generateUser, seedDatabase } from '../utils/test';

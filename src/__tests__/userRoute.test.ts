@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import { signJwt } from '../utils';
 import { login } from '../routes/api/login';
 import { getRepository } from 'typeorm';
-import { Type } from '../database/models/Type';
+import { Type } from '../database/models';
 import { generateUser, seedDatabase } from '../utils/test';
 
 describe('Api /user Route', () => {

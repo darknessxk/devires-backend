@@ -1,6 +1,6 @@
 import getConnection from '../src/database/connectionHandler';
-import { User } from '../src/database/models/User';
-import { Type } from '../src/database/models/Type';
+import { User } from '../src/database/models';
+import { Type } from '../src/database/models';
 
 (async () => {
     const conn = await getConnection();

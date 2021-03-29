@@ -11,7 +11,7 @@ export const Server = (): http.Server => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
-    app.use('/docs', express.static(path.join(__dirname, '../docs')));
+    app.use('/docs', express.static(path.join(__dirname, '../../docs')));
     app.use('/', routes);
 
     return http.createServer({}, app);

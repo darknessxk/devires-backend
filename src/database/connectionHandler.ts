@@ -1,6 +1,5 @@
 import { createConnection, Connection } from 'typeorm';
-import { User } from './models/User';
-import { Type } from './models/Type';
+import { User, Type } from './models';
 
 let connectionCache: Connection;
 
