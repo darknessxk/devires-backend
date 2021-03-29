@@ -38,7 +38,14 @@ router.get('/:id', access, async (req, res) => {
         return;
     }
 
-    res.send(await UserApi.getUserById(id));
+    const result = await UserApi.getUserById(id);
+
+    if (!result) {
+        res.sendStatus(404).end();
+        return;
+    }
+
+    res.send(result);
 });
 
 router.post('/', access, async (req, res) => {
