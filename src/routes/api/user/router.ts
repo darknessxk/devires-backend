@@ -13,15 +13,17 @@ router.use(authentication);
 router.get('/', async (req, res) => {
     const { user, body } = req;
 
-    if (user) {
-        if (checkAccess(user.type.description)) {
-            res.send(await UserApi.listUsers(body || {}));
-        } else {
-            res.send(await UserApi.listUsers({ id: user.id }));
-        }
-    } else {
-        res.sendStatus(401);
+    if (!user) {
+        res.sendStatus(401).end();
+        return;
     }
+
+    const payload: QueryDeepPartialEntity<DbUser> =
+        checkAccess(user.type.description) // Decision taker
+            ? (body || {}) // Admin/Root - Listing
+            : { id: user.id }; // Self
+
+    res.send(await UserApi.listUsers(payload));
 });
 
 router.get('/:id', access, async (req, res) => {
@@ -29,23 +31,29 @@ router.get('/:id', access, async (req, res) => {
 
     if (!id) {
         res.status(400).end();
-    } else {
-        res.send(await UserApi.getUserById(id));
+        return;
     }
+
+    res.send(await UserApi.getUserById(id));
 });
 
 router.post('/', access, async (req, res) => {
     const { email, status, password, type } = req.body;
-    res.send(await UserApi.createUser({ email, status, password, type }));
+
+    const result = await UserApi.createUser({ email, status, password, type });
+
+    res.sendStatus(result ? 201 : 409);
 });
 
 router.delete('/', access, async (req, res) => {
     const { id } = req.body;
     if (!id) {
         res.status(400).end();
-    } else {
-        res.send(await UserApi.deleteUser(id));
+        return;
     }
+
+    const result = await UserApi.deleteUser(id);
+    res.sendStatus(result ? 204 : 409);
 });
 
 router.patch('/', access, async (req, res) => {
@@ -53,9 +61,14 @@ router.patch('/', access, async (req, res) => {
 
     if (!id) {
         res.status(400).end();
-    } else {
-        res.send(await UserApi.updateUser(id, { email, status, password, type }));
+        return;
     }
+
+    const result = await UserApi.updateUser(id, { email, status, password, type });
+
+    console.log({ result, id });
+
+    res.status(result ? 202 : 409).send({ user: result || {} });
 });
 
 export const Router = router;
