@@ -11,17 +11,22 @@ router.post('/', async (req, res) => {
         }
     } = req;
 
+    if (!email || !password) {
+        res.status(400).end();
+        return;
+    }
+
     if (!IsEmail(email)) {
         res.status(400).end();
-    } else {
-        const loginResult = await login(email, password);
+    }
 
-        if (!loginResult) {
-            res.status(401).end();
-        } else {
-            const token = signJwt(loginResult);
-            res.status(200).send({ token });
-        }
+    const loginResult = await login(email, password);
+
+    if (!loginResult) {
+        res.status(401).end();
+    } else {
+        const token = signJwt(loginResult);
+        res.status(200).send({ token });
     }
 });
 
