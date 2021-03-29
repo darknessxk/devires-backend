@@ -5,9 +5,12 @@ import { getRepository } from 'typeorm';
 import { generateUser, seedDatabase } from '../utils/test';
 
 describe('database', () => {
-    beforeAll(async () => connectionHandler.get());
+    beforeAll(async () => {
+        await dbInit();
+        return seedDatabase();
+    });
 
-    afterAll(async () => connectionHandler.close());
+    afterAll(async () => dbClose());
 
     test('find admin user', (done) => {
         (async () => {

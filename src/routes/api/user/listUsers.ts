@@ -5,8 +5,8 @@ import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity
 import { getRepository } from 'typeorm';
 
 export const listUsers = async (data?: QueryDeepPartialEntity<DbUser>): Promise<User[]> => {
-    const conn = await connection.get();
-    const repo = conn.getRepository(DbUser);
+    await dbInit();
+    const repo = getRepository(DbUser);
 
     let users: DbUser[];
     if (data) {

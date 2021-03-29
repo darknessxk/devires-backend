@@ -3,8 +3,8 @@ import { initialize as dbInit } from '../../../database/connectionHandler';
 import { getRepository } from 'typeorm';
 
 export const deleteUser = async (id: string): Promise<boolean> => {
-    const conn = await connection.get();
-    const repo = conn.getRepository(DbUser);
+    await dbInit();
+    const repo = getRepository(DbUser);
     const user = await repo.findOne(id);
 
     if (!user) return false;

@@ -4,8 +4,8 @@ import { getRepository } from 'typeorm';
 import { initialize as dbInit } from '../../../database/connectionHandler';
 
 export const getUserById = async (userId: string): Promise<User | false> => {
-    const conn = await connection.get();
-    const repo = conn.getRepository(DbUser);
+    await dbInit();
+    const repo = getRepository(DbUser);
 
     const user = await repo.findOne({ id: userId }, { relations: ['type'] });
 

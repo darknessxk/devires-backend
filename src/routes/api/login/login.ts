@@ -5,8 +5,8 @@ import { passwordHash } from '../../../utils';
 import { getRepository } from 'typeorm';
 
 export const login = async (email: string, pass: string): Promise<User | false> => {
-    const conn = await connection.get();
-    const userRepository = conn.getRepository(DbUser);
+    await dbInit();
+    const userRepository = getRepository(DbUser);
     const password = passwordHash(pass);
 
     const user = await userRepository.findOne({
