@@ -28,9 +28,9 @@ export const seedDatabase = async (): Promise<void> => {
 
     const users: QueryDeepPartialEntity<User>[] = [];
 
-    users.push({ ...generateUser(), email: 'root@jest.ts', type: types[0] });
-    users.push({ ...generateUser(), email: 'admin@jest.ts', type: types[1] });
-    users.push({ ...generateUser(), email: 'default@jest.ts', type: types[2] });
+    users.push({ ...generateUser(), email: 'root@jest.ts', status: true, type: types[0] });
+    users.push({ ...generateUser(), email: 'admin@jest.ts', status: true, type: types[1] });
+    users.push({ ...generateUser(), email: 'default@jest.ts', status: true, type: types[2] });
 
     for (let u = 0; u < 7; u++) {
         const type = types[randomNumber(types.length - 1)];
