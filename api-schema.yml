@@ -1,0 +1,196 @@
+openapi: 3.0.0
+info:
+  title: Devires Backend
+  version: '1.0'
+  contact:
+    name: darknessxk
+    url: 'https://darknessxk.com'
+    email: me@darknessxk.com
+  license:
+    name: MIT
+servers:
+  - url: 'http://localhost:1030/api'
+    description: Development Server
+paths:
+  /user:
+    parameters: []
+    get:
+      summary: Fetch User
+      tags:
+        - User
+      operationId: get-users-userId
+      description: |-
+        **Access Level: Default, Root, Admin**
+
+        If the user access level is Default it will only return itself
+        If the user level is Root or Admin it will return a array full of user information
+      security:
+        - JWT Auth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+    patch:
+      summary: Update User
+      operationId: patch-users-userId
+      description: |-
+        **Access Level: Root, Admin**
+
+        Update the information of an existing user.
+      security:
+        - JWT Auth: []
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      tags:
+        - User
+    post:
+      summary: Create User
+      operationId: post-user-userId
+      description: |-
+        **Access Level: Root, Admin**
+
+        Create new User.
+      security:
+        - JWT Auth: []
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '409':
+          description: Conflict if email is already in use
+      tags:
+        - User
+    delete:
+      summary: Delete User
+      operationId: delete-user-userId
+      security:
+        - JWT Auth: []
+      description: |-
+        **Access Level: Root, Admin**
+
+        Delete existing User.
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      tags:
+        - User
+  '/user/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: get-user-id
+      description: Retrieve a user from database based on id
+      security:
+        - JWT Auth: []
+  /login:
+    post:
+      summary: Authorization Endpoint
+      operationId: post-login
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                email:
+                  type: string
+                  minLength: 1
+                password:
+                  type: string
+                  minLength: 1
+              required:
+                - email
+                - password
+        description: Just send an email and password
+      tags:
+        - Login
+        - User
+components:
+  schemas:
+    User:
+      description: ''
+      type: object
+      title: User
+      properties:
+        id:
+          type: string
+          minLength: 1
+        status:
+          type: boolean
+        password:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          minLength: 1
+        type:
+          $ref: '#/components/schemas/Type'
+      required:
+        - id
+        - status
+        - password
+        - email
+    Type:
+      description: ''
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          minLength: 1
+      required:
+        - id
+        - description
+      title: Type
+  securitySchemes:
+    JWT Auth:
+      type: http
+      scheme: bearer
