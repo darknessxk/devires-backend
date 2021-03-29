@@ -1,6 +1,6 @@
 import { Router as ERouter } from 'express';
 import { login } from './login';
-import { IsEmail } from 'class-validator';
+import { isEmail } from 'class-validator';
 import { signJwt } from '../../../utils';
 const router = ERouter();
 
@@ -12,22 +12,24 @@ router.post('/', async (req, res) => {
     } = req;
 
     if (!email || !password) {
-        res.status(400).end();
+        res.sendStatus(400).end();
         return;
     }
 
-    if (!IsEmail(email)) {
-        res.status(400).end();
+    if (!isEmail(email)) {
+        res.sendStatus(400).end();
+        return;
     }
 
     const loginResult = await login(email, password);
 
     if (!loginResult) {
-        res.status(401).end();
-    } else {
-        const token = signJwt(loginResult);
-        res.status(200).send({ token });
+        res.sendStatus(401).end();
+        return;
     }
+
+    const token = signJwt(loginResult);
+    res.status(200).send({ token });
 });
 
 export const Router = router;

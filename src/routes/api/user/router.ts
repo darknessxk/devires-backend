@@ -3,35 +3,27 @@ import * as UserApi from './';
 import { authentication } from '../../../middleware/authentication';
 import { access } from '../../../middleware/access';
 import { checkAccess } from '../../../utils';
-import { User } from '../../../types';
 
 const router = ERouter();
 
 router.use(authentication);
 
 router.get('/', async (req, res) => {
-    const { user, body } = req;
+    const {
+        user: {
+            id,
+            type: { description }
+        },
+        body
+    } = req;
 
-    if (!user) {
-        res.sendStatus(401).end();
-        return;
-    }
-
-    const payload: User | User[] | false =
-         checkAccess(user.type.description)
-             ? await UserApi.listUsers(body || {})
-             : await UserApi.getUserById(user.id);
-
-    if (!payload) {
-        res.sendStatus(500).end();
-        return;
-    }
-
-    res.send(payload);
+    res.send(checkAccess(description)
+        ? await UserApi.listUsers(body || {})
+        : await UserApi.getUserById(id));
 });
 
 router.get('/:id', access, async (req, res) => {
-    const { id } = req.params;
+    const { params: { id } } = req;
 
     if (!id) {
         res.status(400).end();
@@ -57,7 +49,7 @@ router.post('/', access, async (req, res) => {
 });
 
 router.delete('/', access, async (req, res) => {
-    const { id } = req.body;
+    const { body: { id } } = req;
     if (!id) {
         res.status(400).end();
         return;
@@ -68,7 +60,7 @@ router.delete('/', access, async (req, res) => {
 });
 
 router.patch('/', access, async (req, res) => {
-    const { id, email, status, password, type } = req.body;
+    const { body: { id, email, status, password, type } } = req;
 
     if (!id) {
         res.status(400).end();
