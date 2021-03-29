@@ -8,18 +8,19 @@ export const initialize = async (): Promise<void> => {
 
     const testMode = process.env.NODE_ENV === 'test';
 
-    if (testMode) {
-        connectionCache = await createConnection({
-            type: 'sqlite',
-            database: ':memory:',
-            dropSchema: true,
-            entities: [User, Type],
-            synchronize: false,
-            logging: false
-        });
-    } else {
+    if (!testMode) {
         connectionCache = await createConnection();
+        return;
     }
+
+    connectionCache = await createConnection({
+        type: 'sqlite',
+        database: ':memory:',
+        dropSchema: true,
+        entities: [User, Type],
+        synchronize: false,
+        logging: false
+    });
 };
 
 export const get = async (): Promise<Connection> => {
