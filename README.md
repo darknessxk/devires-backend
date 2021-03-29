@@ -52,3 +52,14 @@ Run the following command
 Our tests are developed based on to **Jest** testing framework to run our test suites just run
 
 ```yarn test``` or ```npm run test```
+
+---
+
+## Command Line Functions
+
+* password:hash
+  * Takes 1 argument (raw password)
+  * Usage: `yarn password:hash 1234` returns the hash for 1234
+* database:new-user
+  * Takes 2 arguments (email and raw password only)
+  * Usage: `yarn database:new-user my-test@js.com 1234` returns the database result from TypeOrm
