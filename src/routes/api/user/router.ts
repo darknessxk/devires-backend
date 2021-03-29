@@ -19,9 +19,9 @@ router.get('/', async (req, res) => {
     }
 
     const payload: QueryDeepPartialEntity<DbUser> =
-        checkAccess(user.type.description) // Decision taker
-            ? (body || {}) // Admin/Root - Listing
-            : { id: user.id }; // Self
+         checkAccess(user.type.description)
+             ? (body || {})
+             : { id: user.id };
 
     res.send(await UserApi.listUsers(payload));
 });
