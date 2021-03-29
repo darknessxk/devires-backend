@@ -12,8 +12,11 @@ describe('Api /login Route', () => {
     };
 
     dotenv.config({ path: '.test.env' });
-    beforeAll(async () => connectionHandler.get());
-    afterAll(async () => connectionHandler.close());
+    beforeAll(async () => {
+        await dbInit();
+        return seedDatabase();
+    });
+    afterAll(async () => dbClose());
 
     test('test login', () => {
         return request(app)

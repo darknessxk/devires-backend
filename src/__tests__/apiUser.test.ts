@@ -8,13 +8,29 @@ import { User } from '../types';
 
 describe('api - user', () => {
     const targetEmail = 'api@testing.jest';
+    let userData: User;
 
-    beforeAll(async () => connectionHandler.get());
-    afterAll(async () => connectionHandler.close());
+    beforeAll(async (done) => {
+        await dbInit();
+        await seedDatabase();
+
+        const repoUser = await getRepository(DbUser);
+        const users = await repoUser.find({ relations: ['type'] });
+
+        if (!users) {
+            throw new Error('Unable to find any user');
+        }
+
+        userData = users[0];
+
+        done();
+    });
+
+    afterAll(async () => dbClose());
 
     test('get user by id', async () => {
-        const user = await UserApi.getUserById(targetId);
-        expect(user && (user.id === targetId && user.type.description === 'Root')).toBeTruthy();
+        const user = await UserApi.getUserById(userData.id);
+        expect(user && (user.id === userData.id && user.email === userData.email && user.type.id === userData.type.id)).toBeTruthy();
     });
 
     test('create user', async () => {
@@ -30,13 +46,13 @@ describe('api - user', () => {
     });
 
     test('update user', async () => {
-        const user = await UserApi.updateUser(targetId, { email: targetEmail });
+        const user = await UserApi.updateUser(userData.id, { email: targetEmail });
 
         expect(user && user.email === targetEmail).toBeTruthy();
     });
 
     test('delete user', async () => {
-        const result = await UserApi.deleteUser(targetId);
+        const result = await UserApi.deleteUser(userData.id);
         expect(result).toBeTruthy();
     });
 
