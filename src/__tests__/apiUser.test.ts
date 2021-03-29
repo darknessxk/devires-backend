@@ -7,7 +7,6 @@ import { User as DbUser } from '../database/models/User';
 import { User } from '../types';
 
 describe('api - user', () => {
-    const targetId = 'c6fb7cd5-a111-4fb2-bf96-65869c1932c7';
     const targetEmail = 'api@testing.jest';
 
     beforeAll(async () => connectionHandler.get());

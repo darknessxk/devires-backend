@@ -9,7 +9,7 @@ import { Type } from '../database/models/Type';
 import { generateUser, seedDatabase } from '../utils/test';
 
 describe('Api /user Route', () => {
-    const targetId = 'c6fb7cd5-a111-4fb2-bf96-65869c1932c7';
+    let targetId: string;
     const targetEmail = 'api@testing.jest';
     const app = Server();
 
