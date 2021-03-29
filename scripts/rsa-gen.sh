@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-KEYS_PATH="$PWD/../keys"
+KEYS_PATH="$PWD/keys"
 PVK="jwt.pvk"
 PBK="jwt.pbk"
 
