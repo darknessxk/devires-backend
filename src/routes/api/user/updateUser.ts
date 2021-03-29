@@ -8,11 +8,13 @@ export const updateUser = async (id: string, data: QueryDeepPartialEntity<DbUser
     await dbInit();
     const repo = getRepository(DbUser);
 
-    let user = await repo.findOne(id);
+    try {
+        let user = await repo.findOneOrFail(id);
 
-    if (!user) return;
+        user = { ...user, ...data as DbUser };
 
-    user = { ...user, ...data as DbUser };
-
-    return await repo.save(user);
+        return await repo.save(user);
+    } catch {
+        return undefined;
+    }
 };
