@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: '.test.env' });
 
-type ITestJsonData =  {
+type ITestJsonData = {
     stringValue: string;
 }
 
