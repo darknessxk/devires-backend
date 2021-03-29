@@ -1,7 +1,8 @@
 import { Server } from '../server';
 import request from 'supertest';
-import connectionHandler from '../database/connectionHandler';
+import { close as dbClose, initialize as dbInit } from '../database/connectionHandler';
 import dotenv from 'dotenv';
+import { seedDatabase } from '../utils/test';
 
 describe('Api /login Route', () => {
     const app = Server();

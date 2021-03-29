@@ -1,8 +1,8 @@
 import { User } from '../database/models/User';
 import { Type } from '../database/models/Type';
-import connectionHandler from '../database/connectionHandler';
+import { initialize as dbInit, close as dbClose } from '../database/connectionHandler';
 import { getRepository } from 'typeorm';
-import { generateUser } from '../utils/test/generateUser';
+import { generateUser, seedDatabase } from '../utils/test';
 
 describe('database', () => {
     beforeAll(async () => connectionHandler.get());

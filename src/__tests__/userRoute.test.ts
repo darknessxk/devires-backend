@@ -1,12 +1,12 @@
 import { Server } from '../server';
 import request from 'supertest';
-import connectionHandler from '../database/connectionHandler';
+import { close as dbClose, initialize as dbInit } from '../database/connectionHandler';
 import dotenv from 'dotenv';
 import { signJwt } from '../utils';
 import { login } from '../routes/api/login';
 import { getRepository } from 'typeorm';
 import { Type } from '../database/models/Type';
-import { generateUser } from '../utils/test/generateUser';
+import { generateUser, seedDatabase } from '../utils/test';
 
 describe('Api /user Route', () => {
     const targetId = 'c6fb7cd5-a111-4fb2-bf96-65869c1932c7';

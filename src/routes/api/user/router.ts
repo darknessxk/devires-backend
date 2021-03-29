@@ -2,7 +2,9 @@ import { Router as ERouter } from 'express';
 import * as UserApi from './';
 import { authentication } from '../../../middleware/authentication';
 import { access } from '../../../middleware/access';
-import { checkAccess } from '../../../utils/checkAccess';
+import { checkAccess } from '../../../utils';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import { User as DbUser } from '../../../database/models/User';
 
 const router = ERouter();
 

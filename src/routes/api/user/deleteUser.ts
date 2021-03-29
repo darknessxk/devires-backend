@@ -1,5 +1,6 @@
 import { User as DbUser } from '../../../database/models/User';
-import connection from '../../../database/connectionHandler';
+import { initialize as dbInit } from '../../../database/connectionHandler';
+import { getRepository } from 'typeorm';
 
 export const deleteUser = async (id: string): Promise<boolean> => {
     const conn = await connection.get();

@@ -1,10 +1,11 @@
 import { User as DbUser } from '../../../database/models/User';
-import connection from '../../../database/connectionHandler';
+import { initialize as dbInit } from '../../../database/connectionHandler';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import { getRepository } from 'typeorm';
 
 export const createUser = async (data: QueryDeepPartialEntity<DbUser>): Promise<boolean> => {
-    const conn = await connection.get();
-    const repo = conn.getRepository(DbUser);
+    await dbInit();
+    const repo = getRepository(DbUser);
 
     const result = await repo.insert(data);
 

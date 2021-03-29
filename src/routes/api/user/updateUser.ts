@@ -1,7 +1,8 @@
 import { User as DbUser } from '../../../database/models/User';
-import connection from '../../../database/connectionHandler';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { User } from '../../../types';
+import { getRepository } from 'typeorm';
+import { initialize as dbInit } from '../../../database/connectionHandler';
 
 export const updateUser = async (id: string, data: QueryDeepPartialEntity<DbUser>): Promise<User | false> => {
     const conn = await connection.get();

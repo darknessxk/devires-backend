@@ -1,7 +1,8 @@
 import { User as DbUser } from '../../../database/models/User';
 import { User } from '../../../types';
-import connection from '../../../database/connectionHandler';
+import { initialize as dbInit } from '../../../database/connectionHandler';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import { getRepository } from 'typeorm';
 
 export const listUsers = async (data?: QueryDeepPartialEntity<DbUser>): Promise<User[]> => {
     const conn = await connection.get();

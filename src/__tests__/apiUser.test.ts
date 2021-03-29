@@ -1,8 +1,10 @@
 import * as UserApi from '../routes/api/user';
-import { generateUser } from '../utils/test/generateUser';
+import { generateUser, seedDatabase } from '../utils/test';
 import { getRepository } from 'typeorm';
 import { Type } from '../database/models/Type';
-import connectionHandler from '../database/connectionHandler';
+import { close as dbClose, initialize as dbInit } from '../database/connectionHandler';
+import { User as DbUser } from '../database/models/User';
+import { User } from '../types';
 
 describe('api - user', () => {
     const targetId = 'c6fb7cd5-a111-4fb2-bf96-65869c1932c7';

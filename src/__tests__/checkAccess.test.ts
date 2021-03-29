@@ -1,4 +1,4 @@
-import { checkAccess } from '../utils/checkAccess';
+import { checkAccess } from '../utils';
 
 describe('access check util', () => {
     test('deny access', () => {

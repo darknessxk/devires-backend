@@ -1,6 +1,7 @@
 import { User as DbUser } from '../../../database/models/User';
 import { User } from '../../../types';
-import connection from '../../../database/connectionHandler';
+import { getRepository } from 'typeorm';
+import { initialize as dbInit } from '../../../database/connectionHandler';
 
 export const getUserById = async (userId: string): Promise<User | false> => {
     const conn = await connection.get();
