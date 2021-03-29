@@ -25,13 +25,19 @@ Now you are good to go
 
 ---
 
+## Docker
+
+We have a docker instance for database **MySQL** inside the folder `Docker` just run `docker-compose up -d` and it will be ready to go
+
+---
+
 ##  Building the system
 
 If you want to build the code just run ```yarn build``` or ```npm run build```
 
 ---
 
-## Checking Test Suite Coverage
+## Test Suite Coverage
 
 ```yarn coverage``` or ```npm run coverage```
 
