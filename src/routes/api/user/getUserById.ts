@@ -3,15 +3,11 @@ import { User } from '../../../types';
 import { getRepository } from 'typeorm';
 import { initialize as dbInit } from '../../../database/connectionHandler';
 
-export const getUserById = async (userId: string): Promise<User | false> => {
+export const getUserById = async (userId: string): Promise<User | undefined> => {
     await dbInit();
     const repo = getRepository(DbUser);
 
     const user = await repo.findOne({ id: userId }, { relations: ['type'] });
 
-    if (!user) return false;
-
-    const { type, status, email, id } = user;
-
-    return { id, status, email, type };
+    return user as User;
 };
