@@ -1,10 +1,11 @@
-import getConnection from '../src/database/connectionHandler';
-import { User } from '../src/database/models';
-import { Type } from '../src/database/models';
+import { initialize as dbInit, close as dbClose } from '../src/database/connectionHandler';
+import { User, Type } from '../src/database/models';
+import { getRepository } from 'typeorm';
+import { passwordHash } from '../src/utils';
 
 (async () => {
-    const conn = await getConnection();
-    const repo = conn.getRepository(User);
+    await dbInit();
+    const repo = getRepository(User);
     const log = console.log.bind(this, '[Database helper - Create User]\n');
 
     process.argv.find(x => x.endsWith('ts-node')) !== undefined
@@ -16,16 +17,18 @@ import { Type } from '../src/database/models';
 
     if (email === undefined) {
         usageMessage();
+        await dbClose();
         process.exit(0);
     }
 
     if (password === undefined) {
         usageMessage();
+        await dbClose();
         process.exit(0);
     }
 
     try {
-        const typeRepo = await conn.getRepository(Type);
+        const typeRepo = await getRepository(Type);
         const status = true;
         const type = await typeRepo.findOneOrFail({
             where: {
@@ -34,12 +37,14 @@ import { Type } from '../src/database/models';
         });
 
         const user = await repo.insert({
-            email, password, type, status
+            email, password: passwordHash(password), type, status
         });
 
-        console.log('User created', user);
+        log('User created', user);
     } catch (e) {
         console.error('Failure', e);
     }
+
+    await dbClose();
     process.exit(0); // force quit
 })();
